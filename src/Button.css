@@ -1,0 +1,14 @@
+.check-score {
+    background-color: #7A7A7A;
+    border-radius: 8px;
+    color: white;
+    text-align: center;
+    padding: 10px 9px;
+    font-weight: 600;
+    margin: 6px auto;
+}
+
+.check-score:hover {
+    background-color:var(--c-teal);
+    cursor: pointer;
+}

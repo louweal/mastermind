@@ -1,0 +1,47 @@
+.board {
+    display: flex;
+    width: 431px;
+    border: 0px solid gold;
+    margin: 50px auto;
+}
+
+.rownum-area {
+    border: 0px solid silver;
+}
+
+.rownum-area ul {
+    padding-left: 0;
+}
+
+.rownum-area li {
+    padding-left: 0;
+    line-height: 66px;
+}
+
+.code-area {
+    display: flex;
+    flex-direction: row-reverse;
+    flex-wrap: wrap-reverse;
+    border: 0px solid gold;
+    margin-right: 10px;
+    max-width: 270px;
+}
+
+/* scores / keys */ 
+
+.score-area {
+    display: flex;
+    flex-direction: row-reverse;
+    flex-wrap: wrap-reverse;
+    flex-basis: 100%;
+    margin-right: 10px;
+    max-width: 66px;
+}
+
+/* buttons */
+
+.button-area {
+    display: flex;
+    flex-direction: column-reverse;
+}
+

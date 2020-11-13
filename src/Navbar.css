@@ -1,0 +1,18 @@
+header {
+  display: flex;
+  justify-content: space-between;
+  background-color: #e5e5e5;
+  box-shadow: 0px 3px 6px 0px #7A7A7A;
+  width: 100%;
+  padding: 13px;
+}
+
+.logo {
+  width: 45px;
+  height: 45px;
+  background-image: url(../public/img/mastermind_logo.png);
+}
+
+nav ul {
+  list-style-type: none;
+}
