@@ -6,9 +6,18 @@
     padding: 10px 9px;
     font-weight: 600;
     margin: 6px auto;
+    opacity: 0.3;
 }
 
 .check-score:hover {
-    background-color:var(--c-teal);
+    cursor: default;
+}
+
+.check-score-ready {
+    opacity: 1;
+}
+
+.check-score-ready:hover {
+    background-color: var(--c-teal);
     cursor: pointer;
 }

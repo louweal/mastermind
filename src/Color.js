@@ -10,13 +10,14 @@ const Color = (props) => {
     }
 
     return (
-        <div className={`slot ${addDashes}`} onClick={() => props.onSelect(props.color)}>
+        <div className={`slot active-slot ${addDashes}`} onClick={() => props.onSelect(props.color)}>
             <div className="peg" style={{backgroundColor: props.color }}></div>
         </div>
     )
 }
 
 Color.propTypes = {
+    selectedColor: PropTypes.string.isRequired,
     color: PropTypes.string.isRequired,
     onSelect: PropTypes.func.isRequired
 }

@@ -16,6 +16,8 @@
 .rownum-area li {
     padding-left: 0;
     line-height: 66px;
+    text-align: right;
+    margin-right: 2px;
 }
 
 .code-area {

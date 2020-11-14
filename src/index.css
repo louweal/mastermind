@@ -19,8 +19,10 @@ html, body {
 }
 
 h1 {
-    font-size: 22px;
+    font-size: 67px;
     line-height: 45px;
+    font-weight: 900;
+    color: lightgray;
 }
 
 p, li {
@@ -66,16 +68,16 @@ ul {
   border: 1px solid rgba(0,0,0,0.35);
   border-radius: 50%;
   margin: 3px;
-  background: white;
+  background: transparent;
 }
 
-/* .disabled-slot {
-  opacity: 0.2;
-} */
+.active-slot:hover {
+  cursor: pointer;
+}
 
 .selected-slot {
-  cursor: pointer;
-  border-style: dashed;
+  box-shadow: 2px 1px 4px 0px rgba(0,0,0,.2);
+  background: white;
 }
 
 .peg {

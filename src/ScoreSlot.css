@@ -8,10 +8,17 @@
     border-radius: 50%;
 }
 
-.score-slot:hover {
+.white-key {
     width: 16px;
     height: 16px;
     background-color: white;
     border: 1px solid grey;
+    margin: 7px;
+}
+
+.black-key {
+    width: 16px;
+    height: 16px;
+    background-color: black;
     margin: 7px;
 }

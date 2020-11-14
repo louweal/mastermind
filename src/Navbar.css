@@ -2,9 +2,9 @@ header {
   display: flex;
   justify-content: space-between;
   background-color: #e5e5e5;
-  box-shadow: 0px 3px 6px 0px #7A7A7A;
+  box-shadow: 0px 1px 3px 0px #7A7A7A;
   width: 100%;
-  padding: 13px;
+  padding: 10px;
 }
 
 .logo {

@@ -1,20 +1,8 @@
 import React, { Component } from 'react';
-//import shuffle from 'shuffle-array';
+import shuffle from 'shuffle-array';
 import Navbar from './Navbar';
 import Color from './Color';
 import Board from './Board';
-
-
-// const SlotState = {
-//   DISABLED: 0,
-//   ACTIVE: 1
-// }
-
-// const KeySlotState = {
-//   NONE: 0,
-//   WHITE: 1,
-//   BLACK: 2
-// }
 
 const GameColors = {
   TEAL: "#40AF95",
@@ -33,25 +21,48 @@ class MemoryGame extends Component {
   constructor(props) {
     super(props);
 
-    let slots = Array(40).fill().map((e, i) => {
+    this.state = {
+      slots: this.initializeSlots(),
+      keySlots: this.initializeKeySlots(),
+      code: this.initializeCode(),
+      turn: 0,
+      selectedColor: "transparent",
+      gameEnded: false          
+    };
+
+    console.log(this.state.code);
+
+    this.handleNewGame = this.handleNewGame.bind(this);
+    this.handleColorSelect = this.handleColorSelect.bind(this);
+    this.handleSlotClick = this.handleSlotClick.bind(this);
+    this.handleButtonClick = this.handleButtonClick.bind(this);
+    this.compareCodes = this.compareCodes.bind(this);
+  }
+
+  initializeSlots() {
+    return Array(40).fill().map((e, i) => {
       return {
         id: i,
         row: Math.floor(i / 4),
         state: (i < 4), // is current row
-        pegColor: 'transparent',
-        selected: false
+        pegColor: 'transparent'
       }
-    });
+    });   
+  }
 
-    let keySlots = Array(40).fill().map((e, i) => {
+  initializeKeySlots() {
+    return Array(40).fill().map((e, i) => {
       return {
         id: i,
         row: Math.floor(i / 4),
         state: false,
-        keyColor: "transparent"
+        whiteKey: false,
+        blackKey: false
       }
     });
+  }
 
+  initializeCode() {
     const code = [];
     while (code.length < 4) {
       let colorIndex = Math.floor(Math.random() * allColors.length);
@@ -59,138 +70,143 @@ class MemoryGame extends Component {
         code.push(colorIndex);
       }
     }
-
-    this.state = {
-      code,
-      slots,
-      keySlots,
-      turn: 0,
-      selectedColor: "transparent",
-    };
-
-    //this.handleClick = this.handleClick.bind(this);
-    this.handleNewGame = this.handleNewGame.bind(this);
-    this.handleColorSelect = this.handleColorSelect.bind(this);
-    this.handleSlotClick = this.handleSlotClick.bind(this);
-    this.handleButtonClick = this.handleButtonClick.bind(this);
-    this.updateSlot = this.updateSlot.bind(this);
-    this.updateKeySlot = this.updateKeySlot.bind(this);
-    //this.getCurrentCode = this.getCurrentCode.bind(this);
-    this.compareCodes = this.compareCodes.bind(this);
+    return code;    
   }
 
   handleNewGame() {
-
+    this.setState({
+      slots: this.initializeSlots(),
+      keySlots: this.initializeKeySlots(),
+      code: this.initializeCode(),
+      turn: 0,
+      selectedColor: "transparent",
+      gameEnded: false          
+    });
   }
 
   handleColorSelect(selectedColor) {
-    this.setState({ selectedColor })
-  }
-
-  // helper function for updating a task
-  updateSlot(slot, slotIndex) {
-    // copy the state
-    const slots = [...this.state.slots];
-    // remove old task from copied state
-    slots.splice(slotIndex, 1);
-    // insert the updated task at its index position
-    slots.splice(slotIndex, 0, slot);
-    // update state
-    this.setState({ slots });
-  }
-
-  // helper function for updating a task
-  updateKeySlot(slot, slotIndex) {
-    // copy the state
-    const keySlots = [...this.state.keySlots];
-    // remove old task from copied state
-    keySlots.splice(slotIndex, 1);
-    // insert the updated task at its index position
-    keySlots.splice(slotIndex, 0, slot);
-    // update state
-    this.setState({ keySlots });
+    this.setState({selectedColor})
   }
 
   handleSlotClick(id) {
+     // copy the state
+     const slots = [...this.state.slots];   
     // find selected slot in state list
     var slot = this.state.slots[id];
 
-    // avoids changing previous rows ... 
-    console.log(this.state.turn);
-    if(slot.row === this.state.turn) { 
-      // toggle selection state
-      if(slot.pegColor === this.state.selectedColor) {
-        slot.pegColor = "transparent";
-      }
-      else {
-        slot.pegColor = this.state.selectedColor;
-      }
-      this.updateSlot(slot, id);
+    // remove color from slot
+    if(slot.pegColor === this.state.selectedColor) {
+      slot.pegColor = "transparent";
+    }
+    else { // add color to slot
+      slot.pegColor = this.state.selectedColor;
+    }
+    
+    slots.splice(id, 1);// remove old task from copied state
+    slots.splice(id, 0, slot);// insert the updated task at its index position
+    this.setState({slots});// update state
+  }
+
+  prepareNextTurn(slots) {
+    if(!this.state.gameEnded) {
+      // make next row active
+      for (let i = 0; i < 4; i++) {
+        let id = (this.state.turn+1)*4 + i;
+        let slot = slots[id];
+        slot.state = true;
+        slots.splice(id, 1); // remove old task from copied state
+        slots.splice(id, 0, slot); // insert the updated task at its index position
+      } 
+      this.setState({slots, turn: this.state.turn+1});  // update state
+    }
+    else {
+      this.setState({turn: -1});
     }
   }
 
   handleButtonClick() {
+    const slots = [...this.state.slots]; // copy the slot state
+    const keySlots = [...this.state.keySlots]; // copy keyslot state
 
-    // make the keyslots state true 
+    // get code from current turn
+    const currentCode = this.state.slots.filter(s => s.state === true).map(s => allColors.indexOf(s.pegColor));
+    // compare code with answer, and place black/white keys
+    const gameEnded = this.compareCodes(currentCode, this.state.code);
+
+    // disable current slots and activate current keyslots
     for (let i = 0; i < 4; i++) {
       let id = this.state.turn*4 + i;
-      var keySlot = this.state.keySlots[id];
+
+      let slot = slots[id];
+      slot.state = false;
+      slots.splice(id, 1); // remove old task from copied state
+      slots.splice(id, 0, slot); // insert the updated task at its index position
+
+      let keySlot = keySlots[id];
       keySlot.state = true;
-      this.updateKeySlot(keySlot, id)
+      keySlots.splice(id, 1); // remove old task from copied state
+      keySlots.splice(id, 0, keySlot); // insert the updated task at its index position
+    }     
+
+    this.setState({slots, keySlots, gameEnded}, () => this.prepareNextTurn(slots))
+  }
+
+  displayKeys(keys) {
+    keys = shuffle(keys);
+    const keySlots = [...this.state.keySlots];
+
+    for(let i=0; i < keys.length; i++) {
+      let id = this.state.turn*4 + i;
+      let keySlot = keySlots[id];
+      if(keys[i] === 1) {
+        keySlot.blackKey = true;
+      }
+      else {
+        keySlot.whiteKey = true;
+      }
+      keySlots.splice(id, 1); // remove old task from copied state
+      keySlots.splice(id, 0, keySlot); // insert the updated task at its index position   
     }
 
-    // check code
-    const activeSlots = this.state.slots.filter(s => s.state === true);
-    const currentCode = activeSlots.map(s => allColors.indexOf(s.pegColor));
-    console.log(currentCode);
-    console.log(this.state.code);
-    const result = this.compareCodes(currentCode, this.state.code);
-    console.log(result)
-
-    // make next row of slots active (if game not won!)
-    // copy the slot state
-    const slots = [...this.state.slots];
-
-    for (let i = 0; i < 8; i++) {
-      let id = (this.state.turn)*4 + i;
-      var slot = this.state.slots[id];
-      slot.state = !slot.state;
-      // remove old task from copied state
-      slots.splice(id, 1);
-      // insert the updated task at its index position
-      slots.splice(id, 0, slot);
-    } 
-
-    // update state
-    this.setState({ slots });
-
-
-    // update turn counter
-    this.setState({turn: this.state.turn+1});
-
-   
+    this.setState({keySlots});
   }
 
   compareCodes(code, answer) {
-    const keys = [];
+    var keys = [];
+    var seen = [];
+    var numCorrect = 0;
 
-    for(var i=0; i<4; i++) {
-
-      if(code[i] === answer[i]) {
-        keys.push("b")
-      }
-      else if(answer.includes(code[i])) {
-        keys.push("w")
-      }
-      else {
-        keys.push("-")
-      }
+    for(let i=0; i<4; i++) {
+      if(!seen.includes(code[i])) {// color is not already seen (duplicate color)
+        if(code[i] === answer[i]) { // correct color & place
+          keys.push(1);
+          numCorrect += 1;
+          seen.push(code[i]);
+        }
+      } 
     }
-    return keys;
+
+    for(let i=0; i<4; i++) {
+      if(!seen.includes(code[i])) {// color is not already seen (duplicate color)
+        if(answer.includes(code[i])) { // only correct color
+          keys.push(0);
+        }
+      } 
+      seen.push(code[i]);
+    }
+
+    // display keys
+    this.displayKeys(keys);
+
+    if(numCorrect === 4) { // game is won
+      return true;
+    }
+    return false;
   }
 
   render() {
-    const isSelected = (this.state.selectedColor !== "");
+    console.log(this.state.slots.filter(s=>s.state));
+    const isSelected = (this.state.selectedColor !== "transparent");
 
     const colors = allColors.map((c, index) => (
       <Color
@@ -215,7 +231,6 @@ class MemoryGame extends Component {
             scoreSlots={this.state.keySlots}
             handleSlotClick={this.handleSlotClick}
             handleButtonClick={this.handleButtonClick}
-            getCurrentCode={this.getCurrentCode}
           />
 
         </div>
@@ -223,10 +238,8 @@ class MemoryGame extends Component {
           <div className="colors">
             {colors}
           </div>
-          {isSelected ? <p>Place color on the board</p> : <p>Select a color</p>}
-          <p>{this.state.code}</p>
+          {isSelected ? <p>Place selected color on the board</p> : <p>Select a color above</p>}
         </div>
-
       </div>
     );
   }

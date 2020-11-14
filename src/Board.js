@@ -1,13 +1,12 @@
 import React from 'react';
-//import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import './Board.css'
 import Slot from './Slot';
 import ScoreSlot from './ScoreSlot';
 import Button from './Button';
 
 const Board = (props) => {
-
-    const numbers = Array(10).fill().map((n, i) => <li key={9 - i}>{9 - i}.</li>);
+    const numbers = Array(10).fill().map((n, i) => <li key={9 - i}>{10-i}. </li>);
 
     const slots = props.slots.map((slot, id) => {
         return (
@@ -28,13 +27,15 @@ const Board = (props) => {
         return (
             <ScoreSlot
                 key={id}
-                id={id}
                 state={slot.state}
+                black={slot.blackKey}
+                white={slot.whiteKey}
             />
         )
     });
-    
+
     const codeReady = !props.slots.filter(s => s.state).map(s => s.pegColor).includes("transparent");
+    console.log(props.turn);
 
     const buttons = Array(10).fill().map((b, i) => (
         <Button
@@ -67,6 +68,11 @@ const Board = (props) => {
 };
 
 Board.propTypes = {
+    turn: PropTypes.number.isrequired,
+    slots: PropTypes.arrayOf(PropTypes.object).isRequired,
+    scoreSlots: PropTypes.arrayOf(PropTypes.object).isRequired,
+    handleSlotClick: PropTypes.func.isRequired,
+    handleButtonClick: PropTypes.func.isRequired,
 };
 
 export default Board;
