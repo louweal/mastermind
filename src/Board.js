@@ -35,7 +35,6 @@ const Board = (props) => {
     });
 
     const codeReady = !props.slots.filter(s => s.state).map(s => s.pegColor).includes("transparent");
-    console.log(props.turn);
 
     const buttons = Array(10).fill().map((b, i) => (
         <Button
@@ -44,7 +43,6 @@ const Board = (props) => {
             codeReady={codeReady}
             handleClick={props.handleButtonClick}
         />));
-
 
     return (
         <div className="board">
@@ -68,7 +66,7 @@ const Board = (props) => {
 };
 
 Board.propTypes = {
-    turn: PropTypes.number.isrequired,
+    turn: PropTypes.number.isRequired,
     slots: PropTypes.arrayOf(PropTypes.object).isRequired,
     scoreSlots: PropTypes.arrayOf(PropTypes.object).isRequired,
     handleSlotClick: PropTypes.func.isRequired,

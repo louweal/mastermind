@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import './ScoreSlot.css'
 
-
 class ScoreSlot extends Component {
     static propTypes = {
         state: PropTypes.bool.isRequired,
@@ -23,6 +22,5 @@ class ScoreSlot extends Component {
         );    
     }
 };
-
 
 export default ScoreSlot;

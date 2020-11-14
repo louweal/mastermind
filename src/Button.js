@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './Button.css'
 
-
 class Button extends Component {
-
     static propTypes = { 
         state: PropTypes.bool.isRequired,
         codeReady: PropTypes.bool.isRequired,
@@ -29,7 +27,5 @@ class Button extends Component {
         );    
     }
 };
-
-
 
 export default Button;

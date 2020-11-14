@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-
 class Slot extends Component {
     static propTypes = {
         state: PropTypes.bool.isRequired,
@@ -30,6 +29,5 @@ class Slot extends Component {
         );    
     }
 };
-
 
 export default Slot;

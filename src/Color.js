@@ -1,13 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-//import './Card.css'
 
 const Color = (props) => {
 
-    let addDashes = "";
-    if (props.color === props.selectedColor) {
-        addDashes = "selected-slot";
-    }
+    const addDashes = (props.color === props.selectedColor) ? "selected-slot" : "";
 
     return (
         <div className={`slot active-slot ${addDashes}`} onClick={() => props.onSelect(props.color)}>

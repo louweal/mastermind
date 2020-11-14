@@ -30,8 +30,6 @@ class MemoryGame extends Component {
       gameEnded: false          
     };
 
-    console.log(this.state.code);
-
     this.handleNewGame = this.handleNewGame.bind(this);
     this.handleColorSelect = this.handleColorSelect.bind(this);
     this.handleSlotClick = this.handleSlotClick.bind(this);
@@ -205,7 +203,6 @@ class MemoryGame extends Component {
   }
 
   render() {
-    console.log(this.state.slots.filter(s=>s.state));
     const isSelected = (this.state.selectedColor !== "transparent");
 
     const colors = allColors.map((c, index) => (
