@@ -2,7 +2,7 @@
     display: flex;
     width: 431px;
     border: 0px solid gold;
-    margin: 50px auto;
+    margin: 3.5em auto;
 }
 
 .rownum-area {
@@ -37,7 +37,7 @@
     flex-wrap: wrap-reverse;
     flex-basis: 100%;
     margin-right: 10px;
-    max-width: 66px;
+    min-width: 46px;
 }
 
 /* buttons */
@@ -47,3 +47,24 @@
     flex-direction: column-reverse;
 }
 
+@media only screen and (max-width: 500px) {
+    .board {
+        width: 336px;
+        padding: 0px 5px 0px 3px;
+    }
+
+    .code-area {
+        margin: 0;
+        min-width: 200px;
+        max-width: 200px;
+    }
+
+    .score-area {
+        min-width: 45px;
+        max-width: 45px;
+    }
+
+    .rownum-area li {
+        line-height: 52px;
+    }
+}

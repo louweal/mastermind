@@ -2,23 +2,38 @@
     display: flex;
     width: 10px;
     height: 10px;
-    border: 1px solid transparent;
     margin: 10px;
     background-color: #c4c4c4;
     border-radius: 50%;
 }
 
-.white-key {
+.white-key, .black-key {
     width: 16px;
     height: 16px;
-    background-color: white;
-    border: 1px solid grey;
     margin: 7px;
 }
 
+
+.white-key {
+    background-color: white;
+    border: 1px solid grey;
+}
+
 .black-key {
-    width: 16px;
-    height: 16px;
     background-color: black;
-    margin: 7px;
+}
+
+@media only screen and (max-width: 500px) {
+    .score-slot {
+        width: 8px;
+        height: 8px;
+        margin: 6px;
+    }
+
+    .white-key, .black-key {
+        width: 12px;
+        height: 12px;
+        margin: 3px; 
+    }
+
 }

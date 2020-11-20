@@ -20,3 +20,12 @@
     background-color: var(--c-teal);
     cursor: pointer;
 }
+
+@media only screen and (max-width: 500px) {
+    .check-score {
+        font-size: 0.8em;
+        max-height: 40px;
+        padding: 6px 9px;
+    }
+    
+}
